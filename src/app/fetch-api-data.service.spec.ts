@@ -13,4 +13,4 @@ describe('FetchApiDataService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-});
+});ng add @angular/material
