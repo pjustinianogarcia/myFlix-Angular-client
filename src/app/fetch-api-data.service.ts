@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 //Declaring the api url that will provide data for the client app
-const apiUrl = 'mongodb+srv://patriciajg683:QcSXtDRtg1ZKX33b@myflixdb.2ayrhib.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlixDB';
+const apiUrl = 'https://movie-api-3jxi.onrender.com';
 @Injectable({
   providedIn: 'root'
 })
