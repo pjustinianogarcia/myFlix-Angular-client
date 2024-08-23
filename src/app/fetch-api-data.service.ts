@@ -1,3 +1,4 @@
+//fetch-api-data.services.ts
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -14,6 +15,9 @@ export class UserRegistrationService {
  // This will provide HttpClient to the entire class, making it available via this.http
   constructor(private http: HttpClient) {
   }
+
+
+
  // Making the api call for the user registration endpoint
   public userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
@@ -56,9 +60,9 @@ export class UserRegistrationService {
     }
 
       // Get director details
-  public getDirector(directorName: string): Observable<any> {
+  public getDirector(directorId: string): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + `directors/${directorName}`, {
+    return this.http.get(apiUrl + `directors/${directorId}`, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
       })
@@ -70,9 +74,9 @@ export class UserRegistrationService {
 
 
     // Get genre details
-    public getGenre(genreName: string): Observable<any> {
+    public getGenre(genreId: string): Observable<any> {
       const token = localStorage.getItem('token');
-      return this.http.get(apiUrl + `genres/${genreName}`, {
+      return this.http.get(apiUrl + `genres/${genreId}`, {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
         })
