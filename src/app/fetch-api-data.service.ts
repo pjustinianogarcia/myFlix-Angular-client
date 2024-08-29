@@ -100,6 +100,17 @@ export class UserRegistrationService {
     );
   }
 
+  getUserProfile(): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.get<any>(`${apiUrl}users/profile`, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+      }),
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 
    // Get favorite movies for a user
    public getFavoriteMovies(username: string): Observable<any> {
@@ -120,7 +131,7 @@ export class UserRegistrationService {
       return this.http.post(apiUrl + `users/${username}/movies/${movieId}`, {}, {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
-        })
+        }),
       }).pipe(
         map(this.extractResponseData),
         catchError(this.handleError)

@@ -1,7 +1,8 @@
 // src/app/movie-card/movie-card.component.ts
 import { Component, OnInit, Inject } from '@angular/core';
-import { UserRegistrationService } from '../fetch-api-data.service'
+import { UserRegistrationService } from '../fetch-api-data.service';
 import { MatDialog, MAT_DIALOG_DATA  } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar'; 
 
 
 @Component({
@@ -11,11 +12,13 @@ import { MatDialog, MAT_DIALOG_DATA  } from '@angular/material/dialog';
 })
 export class MovieCardComponent implements OnInit {
   movies: any[] = [];
+  user: any;
 
-  constructor(public fetchApiData: UserRegistrationService, public dialog: MatDialog) { }
+  constructor(public fetchApiData: UserRegistrationService, public dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getMovies();
+    this.loadUser(); 
   }
 
   getMovies(): void {
@@ -25,6 +28,23 @@ export class MovieCardComponent implements OnInit {
       return this.movies;
     });
   }
+
+  loadUser(): void {
+    this.fetchApiData.getUserProfile().subscribe(
+      (userData: any) => {
+        if (userData && userData.Username) {
+          this.user = userData;
+          console.log('User data loaded:', this.user);
+        } else {
+          console.error('User profile data is missing Username.');
+        }
+      },
+      error => {
+        console.error('Failed to fetch user data:', error);
+      }
+    );
+  }
+  
 
   openGenreDialog(genreId: string): void {
     if (!genreId) {
@@ -62,10 +82,64 @@ export class MovieCardComponent implements OnInit {
       console.error('Failed to fetch director:', error);
     });
   }
+
+
+openMovieDialog(movie: any): void {
+  this.dialog.open(MovieDialog, {
+    data: {
+      Title: movie.Title,
+      Description: movie.Description,
+    },
+  });
+}
+
+addFavoriteMovie(movieId: string): void {
+  if (!this.user) {
+    console.error('User data is not loaded yet.');
+    return;
+  }
+
+  const username = this.user.Username;
+  if (!username) {
+    console.error('Username is not defined.');
+    return;
+  }
+
+  this.fetchApiData.addFavoriteMovie(username, movieId).subscribe(
+    () => {
+      this.snackBar.open('Movie added to favorites!', 'OK', {
+        duration: 2000,
+      });
+    },
+    (error: any) => {
+      console.error('Failed to add movie to favorites:', error);
+      this.snackBar.open('Failed to add movie to favorites', 'OK', {
+        duration: 2000,
+      });
+    }
+  );
+}
 }
 
 
 // Component for Genre Dialog
+@Component({
+  selector: 'movie-dialog',
+  template: `
+    <h1 mat-dialog-title>{{data.Title}}</h1>
+    <div mat-dialog-content>
+      <p>{{data.Description}}</p>
+     
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>Close</button>
+    </div>
+  `,
+})
+export class MovieDialog {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+}
+
 @Component({
   selector: 'genre-dialog',
   template: `
