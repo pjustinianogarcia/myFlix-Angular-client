@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
     MatInputModule,
     BrowserAnimationsModule,
     MatToolbarModule,
+    MatListModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],

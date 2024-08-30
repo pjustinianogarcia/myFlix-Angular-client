@@ -76,6 +76,7 @@ export class UserRegistrationService {
     // Get genre details
     public getGenre(genreId: string): Observable<any> {
       const token = localStorage.getItem('token');
+      console.log("token:", token);
       return this.http.get(apiUrl + `genres/${genreId}`, {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + token,
@@ -102,6 +103,7 @@ export class UserRegistrationService {
 
   getUserProfile(): Observable<any> {
     const token = localStorage.getItem('token');
+    console.log("token:", token)
     return this.http.get<any>(`${apiUrl}users/profile`, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,

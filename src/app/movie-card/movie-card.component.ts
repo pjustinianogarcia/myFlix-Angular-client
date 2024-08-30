@@ -5,6 +5,7 @@ import { MatDialog, MAT_DIALOG_DATA  } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
 
 
+
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
@@ -46,43 +47,29 @@ export class MovieCardComponent implements OnInit {
   }
   
 
-  openGenreDialog(genreId: string): void {
-    if (!genreId) {
-      console.error('Genre ID is missing.');
-      return;
-    }
-  
-    this.fetchApiData.getGenre(genreId).subscribe((genre: any) => {
-      this.dialog.open(GenreDialog, {
-        data: {
-          Name: genre.Name,
-          Description: genre.Description,
-        },
-      });
-    }, error => {
-      console.error('Failed to fetch genre:', error);
-    });
-  }
+ 
 
-  openDirectorDialog(directorId: string): void {
-    if (!directorId) {
-      console.error('Director ID is missing.');
-      return;
-    }
-  
-    this.fetchApiData.getDirector(directorId).subscribe((director: any) => {
-      this.dialog.open(DirectorDialog, {
-        data: {
-          Name: director.Name,
-          Bio: director.Bio,
-          Birth: director.Birth,
-        },
-      });
-    }, error => {
-      console.error('Failed to fetch director:', error);
-    });
-  }
 
+
+// get director name and info
+openDirectorDialog(movie: any): void {
+  this.dialog.open(DirectorDialog, {
+    data: {
+      Name: movie.Director.Name,
+      Bio: movie.Director.Bio,
+      Birth: movie.Director.Birth 
+    },
+  });
+}
+
+openGenreDialog(movie: any): void {
+  this.dialog.open(GenreDialog, {
+    data: {
+      Name: movie.Genre.Name,
+      Description: movie.Genre.Description
+    },
+  });
+}
 
 openMovieDialog(movie: any): void {
   this.dialog.open(MovieDialog, {
@@ -93,33 +80,28 @@ openMovieDialog(movie: any): void {
   });
 }
 
-addFavoriteMovie(movieId: string): void {
-  if (!this.user) {
-    console.error('User data is not loaded yet.');
-    return;
-  }
 
-  const username = this.user.Username;
-  if (!username) {
-    console.error('Username is not defined.');
-    return;
-  }
-
-  this.fetchApiData.addFavoriteMovie(username, movieId).subscribe(
-    () => {
-      this.snackBar.open('Movie added to favorites!', 'OK', {
+addToFavorites(movie: any): void {
+  if (this.user && this.user.Username) {
+    this.fetchApiData.addFavoriteMovie(this.user.Username, movie._id).subscribe((response: any) => {
+      this.snackBar.open(`${movie.Title} has been added to your favorites!`, 'OK', {
         duration: 2000,
       });
-    },
-    (error: any) => {
-      console.error('Failed to add movie to favorites:', error);
-      this.snackBar.open('Failed to add movie to favorites', 'OK', {
+      // Optionally refresh user data to reflect the added favorite
+      this.loadUser();
+    }, (error: any) => {
+      this.snackBar.open('Error adding movie to favorites', 'OK', {
         duration: 2000,
       });
-    }
-  );
+    });
+  } else {
+    this.snackBar.open('User data is not loaded yet', 'OK', {
+      duration: 2000,
+    });
+  }
 }
 }
+
 
 
 // Component for Genre Dialog
