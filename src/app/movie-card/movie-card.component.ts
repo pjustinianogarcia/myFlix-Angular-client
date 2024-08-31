@@ -31,19 +31,13 @@ export class MovieCardComponent implements OnInit {
   }
 
   loadUser(): void {
-    this.fetchApiData.getUserProfile().subscribe(
-      (userData: any) => {
-        if (userData && userData.Username) {
-          this.user = userData;
-          console.log('User data loaded:', this.user);
-        } else {
-          console.error('User profile data is missing Username.');
-        }
-      },
-      error => {
-        console.error('Failed to fetch user data:', error);
-      }
-    );
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.user = JSON.parse(storedUser);
+      console.log('Loaded user data:', this.user);
+    } else {
+      console.log('No user data found in local storage.');
+    }
   }
   
 
