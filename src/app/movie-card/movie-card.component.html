@@ -10,9 +10,10 @@
         <button mat-button color="primary" (click)="openGenreDialog(movie)">View Genre</button>
         <button mat-button color="primary" (click)="openDirectorDialog(movie)">View Director</button>
         <button mat-button color="primary" (click)="openMovieDialog(movie)">Synopsis</button>
-        <button mat-icon-button color="accent" (click)="addToFavorites(movie)">
-          <mat-icon>favorite_border</mat-icon>
-        </button>
+        <button mat-icon-button color="primary"
+        (click)="isFavoriteMovie(movie._id) ? deleteFavoriteMovie(movie._id) : addFavoriteMovie(movie._id)">
+        <mat-icon>{{isFavoriteMovie(movie._id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </button>
       </mat-card-actions>
     </mat-card>
   </div>

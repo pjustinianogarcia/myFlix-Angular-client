@@ -14,8 +14,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class MovieCardComponent implements OnInit {
   movies: any[] = [];
   user: any;
+  FavoriteMovies: any[] = [];
+  userData = { Username: "", FavoriteMovies: [] };
 
-  constructor(public fetchApiData: UserRegistrationService, public dialog: MatDialog, private snackBar: MatSnackBar) { }
+  constructor(public fetchApiData: UserRegistrationService, 
+    public dialog: MatDialog, 
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getMovies();
@@ -25,6 +29,7 @@ export class MovieCardComponent implements OnInit {
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
+      this.getFavMovies();
       console.log(this.movies);
       return this.movies;
     });
@@ -40,9 +45,54 @@ export class MovieCardComponent implements OnInit {
     }
   }
   
+    /* Favorite Setup */ 
+    getFavMovies(): void {
+      const username = this.user.Username; // Or another way to get the username
+this.fetchApiData.getUser(username).subscribe((user) => {
+  this.user = user;
+  this.getFavMovies();
+});
+      this.userData.FavoriteMovies = this.user.FavoriteMovies;
+      this.FavoriteMovies = this.user.FavoriteMovies;
+      console.log('Users fav movies', this.FavoriteMovies);
+    }
+    isFavoriteMovie(movieID: string): boolean {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      return user.FavoriteMovies.indexOf(movieID) >= 0;
+    }
 
- 
+  /* Favorite Functions */
+  addFavoriteMovie(movie: any): void {
+    const username = this.user.Username; // Or another way to get the username
+    this.fetchApiData.getUser(username).subscribe((user) => {
+      this.user = user;
+      this.getFavMovies();
+    });
+    this.userData.Username = this.user.Username;
+    this.fetchApiData.getFavoriteMovies(movie).subscribe((response) => {
+      localStorage.setItem('user', JSON.stringify(response));
+      this.getFavMovies();
+      this.snackBar.open('Movie has been added to your favorites!', 'OK', {
+        duration: 3000,
+      });
+    });
+  }
 
+  deleteFavoriteMovie(movie: any): void {
+    const username = this.user.Username; // Or another way to get the username
+this.fetchApiData.getUser(username).subscribe((user) => {
+  this.user = user;
+  this.getFavMovies();
+});
+    this.userData.Username = this.user.Username;
+    this.fetchApiData.deleteFavoriteMovie(username, movie).subscribe((response) => {
+      localStorage.setItem('user', JSON.stringify(response));
+      this.getFavMovies();
+      this.snackBar.open('Movie has been removed from your favorites!', 'OK', {
+        duration: 3000,
+      });
+    });
+  }
 
 
 // get director name and info
@@ -75,25 +125,6 @@ openMovieDialog(movie: any): void {
 }
 
 
-addToFavorites(movie: any): void {
-  if (this.user && this.user.Username) {
-    this.fetchApiData.addFavoriteMovie(this.user.Username, movie._id).subscribe((response: any) => {
-      this.snackBar.open(`${movie.Title} has been added to your favorites!`, 'OK', {
-        duration: 2000,
-      });
-      // Optionally refresh user data to reflect the added favorite
-      this.loadUser();
-    }, (error: any) => {
-      this.snackBar.open('Error adding movie to favorites', 'OK', {
-        duration: 2000,
-      });
-    });
-  } else {
-    this.snackBar.open('User data is not loaded yet', 'OK', {
-      duration: 2000,
-    });
-  }
-}
 }
 
 

@@ -70,7 +70,7 @@ export class ProfileViewComponent implements OnInit {
   }
 
   removeFromFavorite(movie: any): void {
-    this.fetchApiData.deleteFavoriteMovie(this.userData.id, movie.title).subscribe((res: any) => {
+    this.fetchApiData.deleteFavoriteMovie(this.userData.id, movie._id).subscribe((res: any) => {
       this.userData.favoriteMovies = res.favoriteMovies;
       this.getfavoriteMovies();
     }, (err: any) => {
