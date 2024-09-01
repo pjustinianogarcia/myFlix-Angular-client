@@ -33,10 +33,9 @@ export class UserLoginFormComponent implements OnInit {
         // Save user details to localStorage
         const user = {
           ...result.user,
-          token: result.token
         };
         localStorage.setItem('user', JSON.stringify(user));
-    
+        localStorage.setItem('token', result.token);
         // Navigate to the movies page
         this.router.navigate(['movies']);
       }, (error) => {

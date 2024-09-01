@@ -50,7 +50,6 @@ export class MovieCardComponent implements OnInit {
       const username = this.user.Username; // Or another way to get the username
 this.fetchApiData.getUser(username).subscribe((user) => {
   this.user = user;
-  this.getFavMovies();
 });
       this.userData.FavoriteMovies = this.user.FavoriteMovies;
       this.FavoriteMovies = this.user.FavoriteMovies;
