@@ -68,7 +68,7 @@ this.fetchApiData.getUser(username).subscribe((user) => {
       this.getFavMovies();
     });
     this.userData.Username = this.user.Username;
-    this.fetchApiData.getFavoriteMovies(movie).subscribe((response) => {
+    this.fetchApiData.addFavoriteMovie(this.user.Username, movie).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response));
       this.getFavMovies();
       this.snackBar.open('Movie has been added to your favorites!', 'OK', {
