@@ -1,4 +1,3 @@
-
 //profile-view.component.ts
 import { Component, OnInit } from '@angular/core';
 import { UserRegistrationService } from '../fetch-api-data.service';
@@ -10,8 +9,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile-view.component.scss']
 })
 export class ProfileViewComponent implements OnInit {
+    /**
+   * Holds the user's data, such as username, password, and favorite movies.
+   */
   userData: any = {};
   favoriteMovies: any[] = [];
+
+   /**
+   * @param fetchApiData Service used to interact with the API for fetching and updating user data.
+   * @param router Service used to navigate between routes.
+   */
   constructor(
     public fetchApiData: UserRegistrationService,
     public router: Router
@@ -22,6 +29,11 @@ export class ProfileViewComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
   }
+
+   /**
+   * Updates the user's profile with the new data.
+   * After updating, it refreshes the user's favorite movies list.
+   */
 
   updateUser(): void {
     this.fetchApiData.editUser(this.userData.Username, this.userData).subscribe((res: any) => {
@@ -44,6 +56,10 @@ export class ProfileViewComponent implements OnInit {
     this.router.navigate(["movies"]);
   }
 
+   /**
+   * Fetches all movies from the database and filters the list to include only the user's favorite movies.
+   */
+
   getfavoriteMovies(): void {
     if (!Array.isArray(this.userData.FavoriteMovies)) {
       this.userData.FavoriteMovies = [];
@@ -58,6 +74,11 @@ export class ProfileViewComponent implements OnInit {
       console.error(err);
     });
   }
+
+    /**
+   * Fetches the user's data from the server and stores it in localStorage.
+   * Also refreshes the user's favorite movies list.
+   */
 
   getUser(): void {
     this.fetchApiData.getUser(this.userData.Username).subscribe((res: any) => {
@@ -77,6 +98,11 @@ export class ProfileViewComponent implements OnInit {
     });
   }
 
+    /**
+   * Removes a movie from the user's list of favorite movies.
+   * @param movie The movie object to be removed from favorites.
+   */
+
   removeFromFavorite(movie: any): void {
     this.fetchApiData.deleteFavoriteMovie(this.userData.id, movie._id).subscribe((res: any) => {
       this.userData.favoriteMovies = res.favoriteMovies;
@@ -85,6 +111,11 @@ export class ProfileViewComponent implements OnInit {
       console.error(err)
     })
   }
+
+
+  /**
+   * Logs out the user by navigating to the welcome screen and removing the user data from localStorage.
+   */
   
   logout(): void {
     this.router.navigate(["welcome"]);
