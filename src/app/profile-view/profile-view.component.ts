@@ -45,8 +45,13 @@ export class ProfileViewComponent implements OnInit {
   }
 
   getfavoriteMovies(): void {
+    if (!Array.isArray(this.userData.favoriteMovies)) {
+      this.userData.favoriteMovies = [];
+    }
     this.fetchApiData.getAllMovies().subscribe((res: any) => {
+      console.log('All Movies:', res);
       this.favoriteMovies = res.filter((movie: any) => {
+        console.log('FavoriteMovies:', this.favoriteMovies);
         return this.userData.favoriteMovies.includes(movie._id)
       })
     }, (err: any) => {
@@ -60,8 +65,11 @@ export class ProfileViewComponent implements OnInit {
         ...res,
         id: res._id,
         password: this.userData.password,
-        token: this.userData.token
+        token: this.userData.token,
+        favoriteMovies: res.favoriteMovies || []
       };
+      console.log('User Data:', this.userData);
+      console.log('User Favorite Movies:', this.userData.favoriteMovies);
       localStorage.setItem("user", JSON.stringify(this.userData));
       this.getfavoriteMovies();
     }, (err: any) => {
