@@ -45,14 +45,14 @@ export class ProfileViewComponent implements OnInit {
   }
 
   getfavoriteMovies(): void {
-    if (!Array.isArray(this.userData.favoriteMovies)) {
-      this.userData.favoriteMovies = [];
+    if (!Array.isArray(this.userData.FavoriteMovies)) {
+      this.userData.FavoriteMovies = [];
     }
     this.fetchApiData.getAllMovies().subscribe((res: any) => {
       console.log('All Movies:', res);
       this.favoriteMovies = res.filter((movie: any) => {
         console.log('FavoriteMovies:', this.favoriteMovies);
-        return this.userData.favoriteMovies.includes(movie._id)
+        return this.userData.FavoriteMovies.includes(movie._id)
       })
     }, (err: any) => {
       console.error(err);
@@ -66,10 +66,10 @@ export class ProfileViewComponent implements OnInit {
         id: res._id,
         password: this.userData.password,
         token: this.userData.token,
-        favoriteMovies: res.favoriteMovies || []
+        FavoriteMovies: res.FavoriteMovies || []
       };
       console.log('User Data:', this.userData);
-      console.log('User Favorite Movies:', this.userData.favoriteMovies);
+      console.log('User Favorite Movies:', this.userData.FavoriteMovies);
       localStorage.setItem("user", JSON.stringify(this.userData));
       this.getfavoriteMovies();
     }, (err: any) => {
