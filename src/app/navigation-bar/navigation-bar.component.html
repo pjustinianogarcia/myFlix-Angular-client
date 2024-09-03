@@ -1,4 +1,6 @@
-<mat-toolbar color="secondary">
-    <button mat-button [routerLink]="['/movies']">Movies</button>
-    <button mat-button [routerLink]="['/profile']">Profile</button>
-  </mat-toolbar>
+<mat-toolbar *ngIf="shouldDisplayNavBar()" color="secondary">
+  <button mat-button [routerLink]="['/movies']">Movies</button>
+  <button mat-button [routerLink]="['/profile']">Profile</button>
+  <span class="spacer"></span> <!-- Optional: adds space between buttons -->
+  <button mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
