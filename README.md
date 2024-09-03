@@ -61,24 +61,87 @@ GET /users/:Username: Fetches user profile data.
 ## Components
 MovieCardComponent: This component is responsible for displaying a list of movies and handling user interactions with movies.
 
-### Methods:
+## Methods:
 
-getMovies(): Fetches all movies from the API.
-loadUser(): Loads the current user's profile data.
-# MyFlixAngularClient
+### userRegistration(userDetails)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
+- **Description:** Registers a new user.
+- **Parameters:** userDetails (Object) - The details of the user to register.
+- **Returns:** Observable<any> - The server's response.
 
-## Development server
+### userLogin(userDetails)
+- **Description:** Logs in a user.
+- **Parameters:** userDetails (Object) - The user's login credentials.
+- **Returns:** Observable<any> - The server's response.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### getAllMovies()
+- **Description:** Retrieves all movies from the database.
+- **Returns:** Observable<any> - An array of all movies.
 
-## Code scaffolding
+### getMovie(movieId)
+- **Description:** Retrieves details for a specific movie.
+- **Parameters:** movieId (string) - The ID of the movie to retrieve.
+- **Returns:** Observable<any> - The movie details.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### getDirector(directorId)
+- **Description:** Retrieves details for a specific director.
+- **Parameters:** directorId (string) - The ID of the director to retrieve.
+- **Returns:** Observable<any> - The director's details.
 
-## Build
+### getGenre(genreId)
+- **Description:** Retrieves details for a specific genre.
+- **Parameters:** genreId (string) - The ID of the genre to retrieve.
+- **Returns:** Observable<any> - The genre's details.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### getUser(username)
+- **Description:** Retrieves details for a specific user.
+- **Parameters:** username (string) - The username of the user to retrieve.
+- **Returns:** Observable<any> - The user's details.
 
+### getUserProfile()
+- **Description:** Retrieves the profile details for the currently logged-in user.
+- **Returns:** Observable<any> - The user's profile details.
+
+### getFavoriteMovies(username)
+- **Description:** Retrieves the favorite movies of a specific user.
+- **Parameters:** username (string) - The username of the user.
+- **Returns:** Observable<any> - An array of the user's favorite movies.
+
+### addFavoriteMovie(username, movieId)
+- **Description:** Adds a movie to a user's list of favorite movies.
+- **Parameters:**
+- **username (string)** - The username of the user.
+- **movieId (string)** - The ID of the movie to add.
+- **Returns:** Observable<any> - The server's response.
+
+### editUser(username, userDetails)
+- **Description:** Updates the details of a specific user.
+- **Parameters:**
+- **username (string)** - The username of the user.
+- **userDetails (Object)** - The updated user details.
+- **Returns:** Observable<any> - The server's response.
+
+### deleteUser(username)
+- **Description:** Deletes a specific user's account.
+- **Parameters:** username (string) - The username of the user to delete.
+- **Returns:** Observable<any> - The server's response.
+
+### deleteFavoriteMovie(username, movieId)
+- **Description:** Removes a movie from a user's list of favorite movies.
+- **Parameters:**
+- **username (string)** - The username of the user.
+- **movieId (string)** - The ID of the movie to remove.
+- **Returns:** Observable<any> - The server's response.
+
+## Error Handling
+
+The UserRegistrationService includes a private handleError method that handles HTTP errors. If an error occurs during an HTTP request, the method logs the error and returns a user-friendly message.
+
+- **handleError(error: HttpErrorResponse):** Handles HTTP errors.
+- **Parameters: error (HttpErrorResponse)** - The error response from the HTTP request.
+- **Returns:** An observable error that can be subscribed to by the calling function.
+## Dependencies
+
+- **Angular:** The service uses Angular's HttpClient for making HTTP requests.
+- **RxJS:** The service relies on RxJS operators such as map and catchError to handle data streams and errors.
 
