@@ -4,3 +4,50 @@ mat-card {
    padding: 10px;
    box-sizing: border-box; 
   }
+
+  /* src/app/movie-card/movie-card.component.scss */
+
+.movie-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .movie-card {
+    flex: 1 1 300px; /* Responsive width */
+    margin: 16px;
+    background-color: #2C3E50; /* Dark blue background */
+    color: #FFFFFF; /* White text color */
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  
+    &:hover {
+      transform: scale(1.05); /* Slight zoom on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Box shadow */
+    }
+  
+    mat-card-title, mat-card-subtitle {
+      color: #FFD700; /* Gold text for titles */
+    }
+  
+    mat-card-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    button {
+      color: #4CAF50; /* Green buttons */
+    }
+  
+    mat-icon {
+      color: #FF5722; /* Deep orange favorite icon */
+    }
+  }
+  
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
