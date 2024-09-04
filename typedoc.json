@@ -1,10 +1,9 @@
 {
-    "entryPoints": ["src/app"], // Path to your Angular app folder
-    "out": "docs", // Output directory for the generated documentation
-    "exclude": ["**/*.spec.ts"], // Exclude test files
-    "includeVersion": true, // Include version number from package.json
-    "excludeExternals": true, // Exclude external modules
-    "excludePrivate": true, // Exclude private members
-    "excludeProtected": true // Exclude protected members
-  }
-  
+  "entryPoints": ["./src/app"], 
+  "out": "docs", 
+  "exclude": ["**/*.spec.ts"], 
+  "includeVersion": true, 
+  "excludeExternals": true, 
+  "excludePrivate": true, 
+  "excludeProtected": true 
+}
