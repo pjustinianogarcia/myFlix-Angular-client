@@ -11,7 +11,8 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,  // Set this to true for TypeDoc
+    "declarationMap": true, // Optionally generate declaration maps
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
